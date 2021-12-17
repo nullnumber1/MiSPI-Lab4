@@ -1,0 +1,97 @@
+<ui:composition
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core">
+    <h:form class="form">
+        <div class="form__wrapper">
+            <div class="p-col-12 p-md-4">
+                <p:staticMessage class="message" severity="info" summary="INFO" detail="Message Content"
+                                 style="visibility: hidden; width: 100%"/>
+            </div>
+            <div class="svg-container__input">
+                <p:inputText class="svg-container__input-x" style="display: none" value="#{formView.svgX}"/>
+                <p:inputText class="svg-container__input-y" style="display: none" value="#{formView.svgY}"/>
+            </div>
+            <div class="form-coordinate-x">
+                <div class="form-coordinate-x__wrapper">
+                    <h:inputHidden id="form-coordinate-x__input" value="#{formView.strX}"/>
+                    <h:outputLabel id="output-x" class="form-coordinate-x__label" value="Choose coordinate x:"/>
+                    <p:commandButton type="button" value="-4" onclick="commandButtonClick(-4)"
+                                     class="form-coordinate-x__input ui-button-flat"/>
+                    <p:commandButton type="button" value="-3" onclick="commandButtonClick(-3)"
+                                     class="form-coordinate-x__input ui-button-flat"/>
+                    <p:commandButton type="button" value="-2" onclick="commandButtonClick(-2)"
+                                     class="form-coordinate-x__input ui-button-flat"/>
+                    <p:commandButton type="button" value="-1" onclick="commandButtonClick(-1)"
+                                     class="form-coordinate-x__input ui-button-flat"/>
+                    <p:commandButton type="button" value="0" onclick="commandButtonClick(0)"
+                                     class="form-coordinate-x__input ui-button-flat"/>
+                    <p:commandButton type="button" value="1" onclick="commandButtonClick(1)"
+                                     class="form-coordinate-x__input ui-button-flat"/>
+                    <p:commandButton type="button" value="2" onclick="commandButtonClick(2)"
+                                     class="form-coordinate-x__input ui-button-flat"/>
+                    <p:commandButton type="button" value="3" onclick="commandButtonClick(3)"
+                                     class="form-coordinate-x__input ui-button-flat"/>
+                    <p:commandButton type="button" value="4" onclick="commandButtonClick(4)"
+                                     class="form-coordinate-x__input ui-button-flat"/>
+                </div>
+            </div>
+            <div class="form-coordinate-y">
+                <div class="form-coordinate-y__wrapper">
+                    <h:outputLabel class="form-coordinate-y__label" value="Enter coordinate y:"/>
+                    <h:inputText class="form-coordinate-y__input" value="#{formView.inputY}"/>
+                </div>
+            </div>
+            <div class="form-radius">
+                <div class="form-radius__wrapper">
+                    <h:inputHidden id="form-radius__input" value="#{formView.strR}"/>
+                    <h:outputLabel class="form-radius__label" value="Choose radius:"/>
+                    <p:commandLink class="form-radius__button" value="1" onclick="commandLinkClick(1)"
+                                   style="margin-right:20px; margin-left: 10px;"/>
+                    <p:commandLink class="form-radius__button" value="2" onclick="commandLinkClick(2)"
+                                   style="margin-right:20px;"/>
+                    <p:commandLink class="form-radius__button" value="3" onclick="commandLinkClick(3)"
+                                   style="margin-right:20px;"/>
+                    <p:commandLink class="form-radius__button" value="4" onclick="commandLinkClick(4)"
+                                   style="margin-right:20px;"/>
+                    <p:commandLink class="form-radius__button" value="5" onclick="commandLinkClick(5)"
+                                   style="margin-right:20px;"/>
+                </div>
+            </div>
+            <div class="form-userbuttons">
+                <div class="form-userbuttons__wrapper">
+                    <h:commandButton action="#{inputController.executeForm}" onclick="if (!checkData()) return false;"
+                                     value="Submit" type="submit"
+                                     styleClass="form-userbuttons__submit">
+                        <f:ajax execute="@form"
+                                render="datatable"
+                                onevent="(data) => { if (data.status === 'success') {
+                                    deletePoints();
+                                    loadPointsFromTable();
+                                }}"/>
+                    </h:commandButton>
+                    <h:commandButton action="#{inputController.clearTable}" value="Clean" type="submit"
+                                     styleClass="form-userbuttons__clean">
+                        <f:ajax execute="@form"
+                                render="datatable"
+                                onevent="(data) => { if (data.status === 'success') {
+                                    deletePoints();
+                                    loadPointsFromTable();
+                                }}"/>
+                    </h:commandButton>
+                    <h:commandButton action="#{inputController.executeSvg}" styleClass="svg-container__button"
+                                     value="SubmitSvg"
+                                     style="display: none" type="submit">
+                        <f:ajax execute="@form"
+                                render="datatable"
+                                onevent="(data) => { if (data.status === 'success') {
+                                    deletePoints();
+                                    loadPointsFromTable();
+                                }}"/>
+                    </h:commandButton>
+                </div>
+            </div>
+        </div>
+    </h:form>
+</ui:composition>
