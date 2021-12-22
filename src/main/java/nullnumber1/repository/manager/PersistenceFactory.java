@@ -31,7 +31,7 @@ public class PersistenceFactory implements Serializable {
         try {
             emf = Persistence.createEntityManagerFactory("Points", result);
         } catch (Exception e) {
-            log.info("Failed to start local machine settings\nsetting up parameters for helios");
+            log.info("Failed to start connection on local machine settings\nsetting up parameters for helios");
             try {
                 result.put("javax.persistence.jdbc.url", "jdbc:postgresql://pg:5432/studs");
                 emf = Persistence.createEntityManagerFactory("Points", result);
