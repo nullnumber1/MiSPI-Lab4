@@ -29,11 +29,6 @@ public class PointServiceImpl implements PointService, Serializable {
     }
 
     @Override
-    public List<Point> getSessionEntityList() {
-        return pointRepository.getSessionEntityList();
-    }
-
-    @Override
     public List<Point> deleteSessionEntityList() {
         return pointRepository.deleteSessionEntityList();
     }

@@ -1,5 +1,6 @@
 package nullnumber1.repository.manager;
 
+import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.annotation.PostConstruct;
@@ -16,6 +17,7 @@ import java.util.Map;
 @Named("repository.persistenceFactory")
 @SessionScoped
 @Slf4j
+@Data
 public class PersistenceFactory implements Serializable {
 
     private EntityManagerFactory emf;
@@ -39,9 +41,5 @@ public class PersistenceFactory implements Serializable {
                 log.error(persistenceException.toString());
             }
         }
-    }
-
-    public EntityManagerFactory getEntityManagerFactory() {
-        return emf;
     }
 }

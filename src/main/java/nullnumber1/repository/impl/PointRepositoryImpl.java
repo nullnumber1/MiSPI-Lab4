@@ -25,7 +25,7 @@ public class PointRepositoryImpl implements Serializable, PointRepository {
 
     @Override
     public Point addEntity(Point p) {
-        EntityManager entityManager = persistenceFactory.getEntityManagerFactory().createEntityManager();
+        EntityManager entityManager = persistenceFactory.getEmf().createEntityManager();
         EntityTransaction entityTransaction = entityManager.getTransaction();
         try {
             entityTransaction.begin();
@@ -60,7 +60,7 @@ public class PointRepositoryImpl implements Serializable, PointRepository {
 
     @Override
     public List<Point> getSessionEntityList() {
-        EntityManager entityManager = persistenceFactory.getEntityManagerFactory().createEntityManager();
+        EntityManager entityManager = persistenceFactory.getEmf().createEntityManager();
         List<Point> pList = null;
         try {
             pList = entityManager.createQuery("SELECT p FROM Point p", Point.class).getResultList();
@@ -77,7 +77,7 @@ public class PointRepositoryImpl implements Serializable, PointRepository {
         List<Point> pList = getSessionEntityList();
 
         if (pList != null) {
-            EntityManager entityManager = persistenceFactory.getEntityManagerFactory().createEntityManager();
+            EntityManager entityManager = persistenceFactory.getEmf().createEntityManager();
             EntityTransaction entityTransaction = entityManager.getTransaction();
             try {
                 entityTransaction.begin();

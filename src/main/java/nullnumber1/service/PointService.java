@@ -10,8 +10,6 @@ public interface PointService {
 
     List<Point> addEntityList(List<Point> pList);
 
-    List<Point> getSessionEntityList();
-
     List<Point> deleteSessionEntityList();
 
 }
