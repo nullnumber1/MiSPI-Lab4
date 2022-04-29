@@ -55,6 +55,7 @@
             <attribute name="http://apache.org/xml/features/validation/schema" value="true"/>
             <attribute name="http://xml.org/sax/features/namespaces" value="true"/>
         </xmlvalidate>
+        <echo message="––– XML VALIDATION DONE –––"/>
     </target>
 
     <target name="env" depends="build">
