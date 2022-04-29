@@ -39,19 +39,6 @@ public class Point {
         return new Point().new Builder();
     }
 
-    private boolean calculate(double x, double y, double r) {
-        if (x >= 0 && y <= 0) {
-            return (x >= -r && y >= -r / 2);
-        }
-        if (x <= 0 && y >= 0) {
-            return (Math.pow(x, 2) + Math.pow(y, 2) <= Math.pow(r / 2, 2));
-        }
-        if (x >= 0 && y >= 0) {
-            return (r / 2 - x >= y);
-        }
-        return false;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -106,6 +93,19 @@ public class Point {
             return this;
         }
 
+        private boolean calculate(double x, double y, double r) {
+            if (x >= 0 && y <= 0) {
+                return (x >= -r && y >= -r / 2);
+            }
+            if (x <= 0 && y >= 0) {
+                return (Math.pow(x, 2) + Math.pow(y, 2) <= Math.pow(r / 2, 2));
+            }
+            if (x >= 0 && y >= 0) {
+                return (r / 2 - x >= y);
+            }
+            return false;
+        }
+
         public Point build() {
             long startTime = System.nanoTime();
 
@@ -114,7 +114,7 @@ public class Point {
                 localDateTime = ZonedDateTime.now(ZoneOffset.UTC).plusMinutes(offset).toLocalDateTime();
             }
             if (hit == null) {
-                Point.this.hit = Point.this.calculate(Point.this.x, Point.this.y, Point.this.r);
+                Point.this.hit = calculate(Point.this.x, Point.this.y, Point.this.r);
             }
             if (scriptTimeSeconds == null) {
                 scriptTimeSeconds = ((double) System.nanoTime() - startTime) / Math.pow(10, 9);

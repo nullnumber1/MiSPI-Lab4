@@ -22,24 +22,17 @@ public class PersistenceFactory implements Serializable {
 
     private EntityManagerFactory emf;
 
-    @Inject
-    private Credentials credentials;
-
     @PostConstruct
     public void init() {
         Map<String, String> result = new HashMap<>();
-        result.put("javax.persistence.jdbc.user", credentials.getUsername());
-        result.put("javax.persistence.jdbc.password", credentials.getPassword());
+        result.put("javax.persistence.jdbc.user", System.getenv("DB_USERNAME"));
+        result.put("javax.persistence.jdbc.password", System.getenv("DB_PASSWORD"));
+        result.put("javax.persistence.jdbc.url", "jdbc:postgresql://" + System.getenv("DB_HOST") + ":" + System.getenv("DB_PORT") + "/" + System.getenv("DB_NAME"));
         try {
             emf = Persistence.createEntityManagerFactory("Points", result);
-        } catch (Exception e) {
-            log.info("Failed to start connection on local machine settings\nsetting up parameters for helios");
-            try {
-                result.put("javax.persistence.jdbc.url", "jdbc:postgresql://pg:5432/studs");
-                emf = Persistence.createEntityManagerFactory("Points", result);
-            } catch (PersistenceException persistenceException) {
-                log.error(persistenceException.toString());
-            }
+        } catch (PersistenceException persistenceException) {
+            log.error("Failed to start connection. Check if database is running and credentials are correct");
+            log.error(persistenceException.toString());
         }
     }
 }
