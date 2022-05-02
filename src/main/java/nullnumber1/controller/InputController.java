@@ -1,6 +1,5 @@
 package nullnumber1.controller;
 
-import nullnumber1.DTOConverter;
 import nullnumber1.dto.PointDTO;
 import nullnumber1.entity.Point;
 import nullnumber1.service.PointService;
@@ -28,25 +27,25 @@ public class InputController implements Serializable {
 
     public void executeForm() {
         List<PointDTO> dtoList = formView.getUserDTOList();
-        List<Point> pointList = dtoList.stream().map(DTOConverter::dtoToEntity)
+        List<Point> pointList = dtoList.stream().map(Point::fromDto)
                 .filter(InputValidator::validateFormEntity).collect(Collectors.toList());
 
         pointList = pointService.addEntityList(pointList);
         // append list
         if (pointList != null) {
-            dtoList = pointList.stream().map(DTOConverter::entityToDto).collect(Collectors.toList());
+            dtoList = pointList.stream().map(PointDTO::fromPoint).collect(Collectors.toList());
             formView.setDtoList(Stream.concat(formView.getDtoList().stream(), dtoList.stream()).collect(Collectors.toList()));
         }
     }
 
     public void executeSvg() {
         PointDTO pointDTO = formView.getUserDTOSvg();
-        Point p = DTOConverter.dtoToEntity(pointDTO);
+        Point p = Point.fromDto(pointDTO);
         if (InputValidator.validateSvgEntity(p)) {
             p = pointService.addEntity(p);
             // append list
             if (p != null) {
-                formView.getDtoList().add(DTOConverter.entityToDto(p));
+                formView.getDtoList().add(PointDTO.fromPoint(p));
             }
         }
     }
@@ -55,7 +54,7 @@ public class InputController implements Serializable {
         List<Point> pList = pointService.deleteSessionEntityList();
         // reduce list
         if (pList != null) {
-            List<PointDTO> dtoList = pList.stream().map(DTOConverter::entityToDto).collect(Collectors.toList());
+            List<PointDTO> dtoList = pList.stream().map(PointDTO::fromPoint).collect(Collectors.toList());
             List<PointDTO> formList = formView.getDtoList();
             formList.removeAll(dtoList);
         }

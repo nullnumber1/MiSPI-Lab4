@@ -1,6 +1,7 @@
 package nullnumber1.dto;
 
 import lombok.Data;
+import nullnumber1.entity.Point;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -13,17 +14,13 @@ public class PointDTO implements Serializable {
     private double x;
     private double y;
     private double r;
-    private LocalDateTime ldt;
+    private LocalDateTime localDateTime;
     private Boolean hit;
     private Double scriptTime;
     private Integer offset;
 
-    public static Builder newBuilder() {
-        return new PointDTO().new Builder();
-    }
-
     public String getLocalDateTimeFormatted() {
-        return ldt.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        return localDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
     }
 
     @Override
@@ -32,58 +29,24 @@ public class PointDTO implements Serializable {
         if (o == null || getClass() != o.getClass()) return false;
         PointDTO pointDTO = (PointDTO) o;
         return Double.compare(pointDTO.x, x) == 0 && Double.compare(pointDTO.y, y) == 0 && Double.compare(pointDTO.r, r) == 0
-                && Objects.equals(ldt, pointDTO.ldt) && Objects.equals(hit, pointDTO.hit)
+                && Objects.equals(localDateTime, pointDTO.localDateTime) && Objects.equals(hit, pointDTO.hit)
                 && Objects.equals(scriptTime, pointDTO.scriptTime);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(x, y, r, ldt, hit, scriptTime);
+        return Objects.hash(x, y, r, localDateTime, hit, scriptTime);
     }
 
-    @Data
-    public class Builder {
-        private Builder() {
-            // private constructor
-        }
-
-        public Builder setX(double x) {
-            PointDTO.this.x = x;
-            return this;
-        }
-
-        public Builder setY(double y) {
-            PointDTO.this.y = y;
-            return this;
-        }
-
-        public Builder setR(double r) {
-            PointDTO.this.r = r;
-            return this;
-        }
-
-        public Builder setHit(boolean Hit) {
-            PointDTO.this.hit = Hit;
-            return this;
-        }
-
-        public Builder setLocalDateTime(LocalDateTime ldt) {
-            PointDTO.this.ldt = ldt;
-            return this;
-        }
-
-        public Builder setOffset(Integer offset) {
-            PointDTO.this.offset = offset;
-            return this;
-        }
-
-        public Builder setScriptTime(Double scriptTime) {
-            PointDTO.this.scriptTime = scriptTime;
-            return this;
-        }
-
-        public PointDTO build() {
-            return PointDTO.this;
-        }
+    public static PointDTO fromPoint(Point point) {
+        PointDTO pointDTO = new PointDTO();
+        pointDTO.setX(point.getX());
+        pointDTO.setY(point.getY());
+        pointDTO.setR(point.getR());
+        pointDTO.setHit(point.getHit());
+        pointDTO.setLocalDateTime(point.getLocalDateTime());
+        pointDTO.setScriptTime(point.getScriptTimeSeconds());
+        pointDTO.setOffset(point.getOffset());
+        return pointDTO;
     }
 }

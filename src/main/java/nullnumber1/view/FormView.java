@@ -37,17 +37,19 @@ public class FormView implements Serializable {
 
     public List<PointDTO> getUserDTOList() {
         List<PointDTO> lst = new ArrayList<>();
-        lst.add(PointDTO.newBuilder()
-                .setX(Double.parseDouble(strX))
-                .setY(inputY)
-                .setR(Double.parseDouble(strR)).build());
+        PointDTO pointDTO = new PointDTO();
+        pointDTO.setX(Double.parseDouble(strX));
+        pointDTO.setY(inputY);
+        pointDTO.setR(Double.parseDouble(strR));
+        lst.add(pointDTO);
         return lst;
     }
 
     public PointDTO getUserDTOSvg() {
-        return PointDTO.newBuilder()
-                .setX(svgX)
-                .setY(svgY)
-                .setR(Double.parseDouble(strR)).build();
+        PointDTO pointDTO = new PointDTO();
+        pointDTO.setX(svgX);
+        pointDTO.setY(svgY);
+        pointDTO.setR(Double.parseDouble(strR));
+        return pointDTO;
     }
 }

@@ -1,6 +1,7 @@
 package nullnumber1.entity;
 
 import lombok.*;
+import nullnumber1.dto.PointDTO;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;
@@ -35,10 +36,6 @@ public class Point {
     @Transient
     private Integer offset;
 
-    public static Builder newBuilder() {
-        return new Point().new Builder();
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -52,74 +49,45 @@ public class Point {
         return getClass().hashCode();
     }
 
-    @Data
-    public class Builder {
-        private Builder() {
-            // private constructor
+    public boolean calculate(double x, double y, double r) {
+        if (x >= 0 && y <= 0) {
+            return (x >= -r && y >= -r / 2);
         }
-
-        public Builder setX(double x) {
-            Point.this.x = x;
-            return this;
+        if (x <= 0 && y >= 0) {
+            return (Math.pow(x, 2) + Math.pow(y, 2) <= Math.pow(r / 2, 2));
         }
-
-        public Builder setY(double y) {
-            Point.this.y = y;
-            return this;
+        if (x >= 0 && y >= 0) {
+            return (r / 2 - x >= y);
         }
+        return false;
+    }
 
-        public Builder setR(double r) {
-            Point.this.r = r;
-            return this;
+    public void build() {
+        long startTime = System.nanoTime();
+
+        if (localDateTime == null) {
+            offset = offset == null ? 0 : offset;
+            localDateTime = ZonedDateTime.now(ZoneOffset.UTC).plusMinutes(offset).toLocalDateTime();
         }
-
-        public Builder setHit(Boolean hit) {
-            Point.this.hit = hit;
-            return this;
+        if (hit == null) {
+            this.hit = calculate(Point.this.x, Point.this.y, Point.this.r);
         }
-
-        public Builder setLocalDateTime(LocalDateTime ldt) {
-            Point.this.localDateTime = ldt;
-            return this;
-        }
-
-        public Builder setScriptTime(Double scriptTime) {
-            Point.this.scriptTimeSeconds = scriptTime;
-            return this;
-        }
-
-        public Builder setOffset(Integer offset) {
-            Point.this.offset = offset;
-            return this;
-        }
-
-        private boolean calculate(double x, double y, double r) {
-            if (x >= 0 && y <= 0) {
-                return (x >= -r && y >= -r / 2);
-            }
-            if (x <= 0 && y >= 0) {
-                return (Math.pow(x, 2) + Math.pow(y, 2) <= Math.pow(r / 2, 2));
-            }
-            if (x >= 0 && y >= 0) {
-                return (r / 2 - x >= y);
-            }
-            return false;
-        }
-
-        public Point build() {
-            long startTime = System.nanoTime();
-
-            if (localDateTime == null) {
-                offset = offset == null ? 0 : offset;
-                localDateTime = ZonedDateTime.now(ZoneOffset.UTC).plusMinutes(offset).toLocalDateTime();
-            }
-            if (hit == null) {
-                Point.this.hit = calculate(Point.this.x, Point.this.y, Point.this.r);
-            }
-            if (scriptTimeSeconds == null) {
-                scriptTimeSeconds = ((double) System.nanoTime() - startTime) / Math.pow(10, 9);
-            }
-            return Point.this;
+        if (scriptTimeSeconds == null) {
+            scriptTimeSeconds = ((double) System.nanoTime() - startTime) / Math.pow(10, 9);
         }
     }
+
+    public static Point fromDto(PointDTO pointDTO) {
+        Point point = new Point();
+        point.setX(pointDTO.getX());
+        point.setY(pointDTO.getY());
+        point.setR(pointDTO.getR());
+        point.setHit(pointDTO.getHit());
+        point.setLocalDateTime(pointDTO.getLocalDateTime());
+        point.setScriptTimeSeconds(pointDTO.getScriptTime());
+        point.setOffset(pointDTO.getOffset());
+        point.build();
+        return point;
+    }
 }
+
