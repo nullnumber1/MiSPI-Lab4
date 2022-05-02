@@ -7,11 +7,14 @@
     </path>
 
     <path id="classpath.test">
+        <pathelement location="${junit}"/>
+        <pathelement location="${hamcrest}"/>
         <pathelement location="${classes.dir}"/>
     </path>
 
     <target name="clean">
         <delete dir="${build.dir}"/>
+        <delete dir="${junit.report.dir}"/>
         <echo message="––– CLEAN DONE –––"/>
     </target>
 
@@ -44,8 +47,22 @@
         <echo message="––– BUILD DONE –––"/>
     </target>
 
-    <target name="test" depends="build">
-
+    <target name="test" depends="compile">
+        <mkdir dir="${test.classes.dir}"/>
+        <mkdir dir="${junit.report.dir}"/>
+        <javac destdir="${test.classes.dir}" srcdir="${test.dir}" includeantruntime="false"
+               classpathref="classpath.test"/>
+        <junit printsummary="on" haltonfailure="yes">
+            <classpath>
+                <path refid="classpath.test"/>
+                <pathelement location="${test.classes.dir}"/>
+            </classpath>
+            <batchtest fork="yes" todir="${junit.report.dir}">
+                <formatter type="xml"/>
+                <fileset dir="${test.dir}" includes="*Test*.java"/>
+            </batchtest>
+        </junit>
+        <echo message="––– TESTS COMPLETED –––"/>
     </target>
 
     <target name="xml">
