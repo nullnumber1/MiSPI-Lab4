@@ -1,11 +1,12 @@
 import nullnumber1.entity.Point;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
+import org.junit.Test;
+import static org.junit.Assert.*;
 
-@RunWith(Parameterized.class)
 public class HitTest {
-    private static final Point point = new Point();
-    private double x;
-    private double y;
-    private double r;
+    private final Point point = new Point();
+
+    @Test
+    public void middleTest(){
+        assertTrue(point.calculate(0, 0, 1));
+    }
 }
