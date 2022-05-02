@@ -30,7 +30,7 @@
     </target>
 
     <target name="build" depends="compile">
-        <copy todir="${artifact.dir}">
+        <copy todir="${artifact.dir}" >
             <fileset dir="${web.dir}"/>
         </copy>
         <copy todir="${artifact-lib.dir}">
@@ -48,7 +48,6 @@
     </target>
 
     <target name="test" depends="compile">
-        <mkdir dir="${test.classes.dir}"/>
         <mkdir dir="${junit.report.dir}"/>
         <javac destdir="${test.classes.dir}" srcdir="${test.dir}" includeantruntime="false"
                classpathref="classpath.test"/>
@@ -67,7 +66,9 @@
 
     <target name="xml">
         <xmlvalidate warn="yes" failonerror="no" >
-            <fileset dir="${project.dir}" includes="**/*.xml"/>
+            <fileset dir="${project.dir}" includes="**/*.xml">
+                <exclude>name=".idea/**"</exclude>
+            </fileset>
             <attribute name="http://xml.org/sax/features/validation" value="true"/>
             <attribute name="http://apache.org/xml/features/validation/schema" value="true"/>
             <attribute name="http://xml.org/sax/features/namespaces" value="true"/>
@@ -75,7 +76,15 @@
         <echo message="––– XML VALIDATION DONE –––"/>
     </target>
 
-    <target name="env" depends="build">
-
+    <target name="env" depends="clean">
+        <mkdir dir="${classes.dir}"/>
+        <javac srcdir="${main.dir}" destdir="${classes.dir}" classpathref="classpath" source="${compile.version}"
+               includeantruntime="false">
+            <compilerarg value="${vm.arguments}"/>
+        </javac>
+        <copy todir="${classes.dir}">
+            <fileset dir="${resources.dir}"/>
+        </copy>
+        <antcall target="build"/>
     </target>
 </project>
