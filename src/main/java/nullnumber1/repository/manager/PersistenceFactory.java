@@ -23,6 +23,7 @@ public class PersistenceFactory implements Serializable {
 
     @PostConstruct
     public void init() {
+        log.info("Max size of the heap: {}", Runtime.getRuntime().maxMemory());
         Map<String, String> result = new HashMap<>();
         result.put("javax.persistence.jdbc.user", System.getenv("DB_USERNAME"));
         result.put("javax.persistence.jdbc.password", System.getenv("DB_PASSWORD"));
