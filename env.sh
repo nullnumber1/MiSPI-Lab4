@@ -1,5 +1,6 @@
-#! /bin/zsh
+#! /bin/bash
 PROPERTY_FILE=build.properties
+ARTIFACT_NAME=MiSPILab3.war
 
 function getProperty {
    PROP_KEY=$1
@@ -9,6 +10,6 @@ function getProperty {
 
 export JAVA_OPTS=$(getProperty "vm.args")
 export JAVA=$(getProperty "java.home")
-cp $(getProperty "artifact.dir")/MiSPILab3.war $(getProperty "wildfly.deployment")
+cp $(getProperty "build.dir")/$ARTIFACT_NAME $(getProperty "wildfly.deployment")
 export $(grep -v '^#' application.env | xargs)
 $(getProperty "wildfly.launch")
