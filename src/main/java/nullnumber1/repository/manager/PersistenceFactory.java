@@ -18,7 +18,6 @@ import java.util.Map;
 @Slf4j
 @Data
 public class PersistenceFactory implements Serializable {
-
     private EntityManagerFactory emf;
 
     @PostConstruct

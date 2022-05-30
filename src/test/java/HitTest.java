@@ -108,6 +108,6 @@ public class HitTest {
 
     @Test
     public void rectangleRightTopOut() {
-        assertFalse(point.calculate(2 + 0.0001, 0, 2));
+        assertFalse(point.calculate(2 - 0.001, 0, 2));
     }
 }
