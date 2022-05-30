@@ -30,7 +30,7 @@ public class PointServiceImpl implements PointService, Serializable {
     @Override
     public Point addEntity(Point point) {
         pointCounter.check(point.getHit());
-        missPercentage.getPercentage(pointCounter.getCount(), pointCounter.getHitCount());
+        missPercentage.calculatePercentage(pointCounter.getCount(), pointCounter.getHitCount());
         return pointRepository.addEntity(point);
     }
 
@@ -38,7 +38,7 @@ public class PointServiceImpl implements PointService, Serializable {
     public List<Point> addEntityList(List<Point> list) {
         for (Point point:list) {
             pointCounter.check(point.getHit());
-            missPercentage.getPercentage(pointCounter.getCount(), pointCounter.getHitCount());
+            missPercentage.calculatePercentage(pointCounter.getCount(), pointCounter.getHitCount());
         }
         return pointRepository.addEntityList(list);
     }

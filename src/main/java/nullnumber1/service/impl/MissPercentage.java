@@ -12,9 +12,8 @@ public class MissPercentage implements MissPercentageMBean {
     }
 
     @Override
-    public double getPercentage(int count, int hit) {
+    public void calculatePercentage(int count, int hit) {
         missRate = hit / count * 100;
-        return missRate;
     }
 
     public void setMissRate(double missRate) {
