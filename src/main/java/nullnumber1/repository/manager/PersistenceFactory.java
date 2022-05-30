@@ -14,7 +14,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Named("repository.persistenceFactory")
-@SessionScoped
 @Slf4j
 @Data
 public class PersistenceFactory implements Serializable {
