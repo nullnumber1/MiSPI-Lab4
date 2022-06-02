@@ -18,7 +18,7 @@ import java.util.stream.Stream;
 public class InputController implements Serializable {
 
     @Inject
-    @Named("service.pointService")
+    @Named("service.pointServiceImpl")
     PointService pointService;
 
     @Inject
